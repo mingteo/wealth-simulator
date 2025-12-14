@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📈 Interactive Wealth Simulator
 
-## Getting Started
+![Project Screenshot](/public/screenshot.png)
 
-First, run the development server:
+> A modern, real-time financial projection tool built to visualize the power of compound interest with precision.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 About The Project
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This project is a high-performance financial simulator designed to help users calculate their future wealth based on monthly investments, interest rates, and tax deductions.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Unlike standard calculators that use simple yearly estimates, this application implements **Monthly Compounding Logic**, iterating through data month-by-month to provide a highly accurate financial projection.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Why I Built This
+I built this project to challenge my understanding of **Next.js 14 App Router** and **Complex State Management**. It serves as a practical implementation of financial mathematics translated into performant JavaScript code.
 
-## Learn More
+## ✨ Key Features
 
-To learn more about Next.js, take a look at the following resources:
+* **⚡ Real-Time Calculation:** The chart updates instantly as you drag sliders or type numbers using React `useMemo` for optimal performance.
+* **📅 Monthly Compounding Precision:** Uses a nested loop logic to calculate interest 12 times a year, resulting in mathematically accurate projections compared to simple yearly formulas.
+* **💸 Tax Logic Implementation:** Features a dedicated tax parameter that correctly deducts tax *only* from the profit/interest earned, not the principal capital.
+* **🛡️ Robust Input Handling:** Custom input sanitization logic that solves the common "React Input Zero" bug, allowing users to clear inputs fully without getting stuck on "0".
+* **📱 Fully Responsive:** Built with Tailwind CSS to look perfect on mobile devices and desktops.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
+* **Language:** [TypeScript](https://www.typescriptlang.org/)
+* **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+* **Visualization:** [Recharts](https://recharts.org/)
+* **Icons:** Lucide React
 
-## Deploy on Vercel
+## 🧮 The Logic (Snippet)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Here is how the core monthly compounding logic handles the calculation to ensure accuracy:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```typescript
+// Nested Loop for Precision
+for (let year = 1; year <= years; year++) {
+  for (let month = 1; month <= 12; month++) {
+    // 1. Add Monthly Contribution
+    currentAmount += monthlyInvest;
+    
+    // 2. Calculate Monthly Interest
+    const monthlyInterest = currentAmount * ((interestRate / 100) / 12);
+    
+    // 3. Deduct Tax from Interest
+    const monthlyTax = monthlyInterest * (tax / 100);
+    
+    // 4. Accumulate
+    currentAmount += (monthlyInterest - monthlyTax);
+  }
+}
